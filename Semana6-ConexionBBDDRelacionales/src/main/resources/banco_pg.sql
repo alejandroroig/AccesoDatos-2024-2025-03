@@ -14,9 +14,9 @@ DROP TABLE IF EXISTS usuarios, cuentas;
 -- Crear tabla usuarios
 CREATE TABLE IF NOT EXISTS usuarios (
     id_usuario SERIAL PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(50) NOT NULL,  -- Para propósitos educativos, usaremos texto plano
-    email VARCHAR(100) NOT NULL
+    email VARCHAR(100) NOT NULL UNIQUE
 );
 
 -- Crear tabla cuentas_bancarias

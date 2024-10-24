@@ -22,11 +22,14 @@ public class OperacionesSQL {
             mostrarSQLInjection(conn, "admin", "' OR '1'='1");
 
             // 2. Ejecución segura con PreparedStatement
+            System.out.println("Ejecución segura con PreparedStatement contra SQL Injection:");
             mostrarSQLSegura(conn, "admin", "' OR '1'='1");
+            System.out.println("Ejecución segura con PreparedStatement:");
             mostrarSQLSegura(conn, "admin", "12345");
 
             // 3. Ejemplo de Inserción
             int nuevoUsuarioId = insertarUsuario(conn, "un_usuario", "password123", "mail@gmail.com");
+            mostrarSQLSegura(conn, "un_usuario", "password123");
 
             // 4. Ejemplo de Modificación
             modificarUsuario(conn, "un_usuario", "newpassword123");
@@ -148,14 +151,6 @@ public class OperacionesSQL {
     // 5. Ejemplo de Borrado
     public static void borrarUsuario(Connection conn, int idUsuario) {
         try {
-            // Borrar primero la cuenta asociada
-            String sqlBorrarCuenta = "DELETE FROM cuentas WHERE id_usuario = ?";
-            PreparedStatement pstmtCuenta = conn.prepareStatement(sqlBorrarCuenta);
-            pstmtCuenta.setInt(1, idUsuario);
-            pstmtCuenta.executeUpdate();
-            pstmtCuenta.close();
-
-            // Borrar luego el usuario
             String sqlBorrarUsuario = "DELETE FROM usuarios WHERE id_usuario = ?";
             PreparedStatement pstmtUsuario = conn.prepareStatement(sqlBorrarUsuario);
             pstmtUsuario.setInt(1, idUsuario);

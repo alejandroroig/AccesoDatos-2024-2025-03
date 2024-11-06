@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS Profesor (
     apellido VARCHAR(50) NOT NULL,
     id_asignatura INT,
     fecha_inicio DATE,
+	UNIQUE (nombre, apellido)
     FOREIGN KEY (id_asignatura) REFERENCES Asignatura(id_asignatura)
 );
 
@@ -47,6 +48,7 @@ CREATE TABLE IF NOT EXISTS Estudiante (
     id_casa INT,
     anyo_curso INT,
     fecha_nacimiento DATE NOT NULL,
+	UNIQUE (nombre, apellido)
     FOREIGN KEY (id_casa) REFERENCES Casa(id_casa)
 );
 
@@ -324,41 +326,5 @@ BEGIN
     LEFT JOIN Mascota m ON e.id_estudiante = m.id_estudiante
     WHERE e.id_estudiante = out_id_estudiante;
 
-END;
-$$ LANGUAGE plpgsql;
-
-
-DROP PROCEDURE IF EXISTS crear_estudiante(
-    VARCHAR(50),
-    VARCHAR(50),
-    DATE,
-    INT
-);
-
-CREATE OR REPLACE PROCEDURE crear_estudiante(
-    p_nombre VARCHAR(50),
-    p_apellido VARCHAR(50),
-    p_fecha_nacimiento DATE,
-    p_anyo_curso INT
-) AS $$
-DECLARE
-    v_id_casa INT;
-    v_id_estudiante INT;  -- Variable para almacenar el ID del estudiante recién creado
-BEGIN
-    -- Asignar casa aleatoriamente (PostgreSQL usa RANDOM())
-    v_id_casa := CEIL(RANDOM() * 4);
-
-    -- Insertar el nuevo estudiante
-    INSERT INTO Estudiante (nombre, apellido, id_casa, anyo_curso, fecha_nacimiento)
-    VALUES (p_nombre, p_apellido, v_id_casa, p_anyo_curso, p_fecha_nacimiento)
-    RETURNING id_estudiante INTO v_id_estudiante;  -- Captura el ID del estudiante insertado
-
-    -- Matricular al estudiante en las asignaturas básicas
-    INSERT INTO Estudiante_Asignatura (id_estudiante, id_asignatura)
-    SELECT v_id_estudiante, id_asignatura
-    FROM Asignatura
-    WHERE obligatoria = TRUE AND id_asignatura <= 7;  -- Asegúrate de matricular las asignaturas obligatorias
-
-    RAISE NOTICE 'Estudiante % % ha sido creado y asignado a la casa %.', p_nombre, p_apellido, v_id_casa;
 END;
 $$ LANGUAGE plpgsql;

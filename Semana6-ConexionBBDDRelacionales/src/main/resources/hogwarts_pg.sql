@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS Profesor (
     apellido VARCHAR(50) NOT NULL,
     id_asignatura INT,
     fecha_inicio DATE,
-	UNIQUE (nombre, apellido)
+	UNIQUE (nombre, apellido),
     FOREIGN KEY (id_asignatura) REFERENCES Asignatura(id_asignatura)
 );
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS Estudiante (
     id_casa INT,
     anyo_curso INT,
     fecha_nacimiento DATE NOT NULL,
-	UNIQUE (nombre, apellido)
+	UNIQUE (nombre, apellido),
     FOREIGN KEY (id_casa) REFERENCES Casa(id_casa)
 );
 

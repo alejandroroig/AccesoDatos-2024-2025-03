@@ -22,7 +22,7 @@ public class OperacionesSQL {
             mostrarUsuariosYCuentas(conn);
             System.out.println();
 
-            // 1. Realizar una transacción con éxito
+/*            // 1. Realizar una transacción con éxito
             realizarTransaccion(conn, 2, 3, 100.00);
             System.out.println("Usuarios y cuentas tras transacción exitosa:");
             mostrarUsuariosYCuentas(conn);
@@ -33,7 +33,7 @@ public class OperacionesSQL {
             System.out.println("Usuarios y cuentas tras transacción fallida:");
             mostrarUsuariosYCuentas(conn);
             System.out.println();
-
+*/
             // 2. Ejemplo de Inserción en ambas tablas
             int nuevoUsuarioId = insertarUsuarioYCuenta(conn, "nuevo_usuario",
                     "password123",
@@ -44,7 +44,7 @@ public class OperacionesSQL {
             System.out.println();
 
             // 3. Ejecutar un procedimiento almacenado sin retorno (transferencia)
-            transferenciaBancaria(conn, 2, 3, 200.00);
+            transferenciaBancaria(conn, 2, 3, 50.00);
             System.out.println("Usuarios y cuentas tras procedimiento almacenado:");
             mostrarUsuariosYCuentas(conn);
             System.out.println();
